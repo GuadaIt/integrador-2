@@ -14,32 +14,34 @@ let operacionARealizar = prompt(`¿Qué operación desea realizar?`);
 
 /*=================================== AGREGAR USUARIO ===============================*/
 
-if (operacionARealizar === "agregar") {
-  let usuarioAAgregar = prompt("Ingrese el nombre del usuario")
-  let telefonoUsuario = prompt("Ingrese el teléfono del usuario")
-  telefonoUsuario = Number(telefonoUsuario);
-  let mailUsuario = prompt("Ingrese mail del usuario")
-  let respuestaConfirmacion = prompt(`Ingresaste los siguientes datos:
+do {
+  if (operacionARealizar === "agregar") {
+    let usuarioAAgregar = prompt("Ingrese el nombre del usuario")
+    let telefonoUsuario = prompt("Ingrese el teléfono del usuario")
+    telefonoUsuario = Number(telefonoUsuario);
+    let mailUsuario = prompt("Ingrese mail del usuario")
+    let respuestaConfirmacion = prompt(`Ingresaste los siguientes datos:
     Nombre: ${usuarioAAgregar}
     Teléfono: ${telefonoUsuario}
     Mail: ${mailUsuario}
     
     ¿Desea confirmar la operación?`)
 
-  if (respuestaConfirmacion === respuestaAfirmativa) {
-    let datosUsuarioAAgregar = [usuarios.length, usuarioAAgregar, telefonoUsuario, mailUsuario]
-    usuarios.push(datosUsuarioAAgregar)
-    alert("Operación realizado con éxito")
+    if (respuestaConfirmacion === respuestaAfirmativa) {
+      let datosUsuarioAAgregar = [usuarios.length, usuarioAAgregar, telefonoUsuario, mailUsuario]
+      usuarios.push(datosUsuarioAAgregar)
+      alert("Operación realizado con éxito")
+    }
+    else {
+      alert("La operación ha sido cancelada")
+    }
+    repeticionOperacion = prompt("¿Desea realizar la operación nuevamente?")
   }
-  else {
-    alert("La operación ha sido cancelada")
-  }
-  repeticionOperacion = prompt("¿Desea realizar la operación nuevamente?")
 }
-
+while (repeticionOperacion === respuestaAfirmativa);
 /*=================================== OBTENER USUARIO ===============================*/
 
-while (repeticionOperacion != respuestaNegativa) {
+do {
   if (operacionARealizar === "obtener") {
     let datoABuscar = prompt(`Seleccione una opción de búsqueda:
     ID
@@ -47,9 +49,9 @@ while (repeticionOperacion != respuestaNegativa) {
     TELEFONO
     EMAIL`)
     let valorDeDatoABuscar = prompt(`Ingrese el valor de ${datoABuscar}`);
-    
+
     //acá hay un problema si el usuario ingresa un numero para realizar la búsqueda porque se guarda como string 
-    
+
     for (let i = 0; i < usuarios.length; i++) {
       for (let j = 0; j < usuarios[i].length; j++) {
 
@@ -59,15 +61,19 @@ while (repeticionOperacion != respuestaNegativa) {
           NOMBRE: ${usuarios[i][1]}
           TELÉFONO: ${usuarios[i][2]}
           EMAIL: ${usuarios[i][3]}`)
+          break;
         }
+        /////////////////////// ERROR: se ejecuta el loop 4 veces. Por ende, si el usuario que busco tiene índice 2, primero veré 2 alertas
+        ////////////////////// de usuario no encontrado y luego si, el alert con los datos.
         else {
           alert("Usuario no encontrado")
         }
       }
     }
+    repeticionOperacion = prompt("¿Desea realizar la operación nuevamente?")
   }
-  repeticionOperacion = prompt("¿Desea realizar la operación nuevamente?")
 }
+while (repeticionOperacion === respuestaAfirmativa);
 
 /*🔎 Buscar un usuario
  Debe pedir seleccionar por qué dato se va a buscar: id, nombre, celular o email
@@ -82,19 +88,10 @@ while (repeticionOperacion != respuestaNegativa) {
 /*=================================== LISTAR USUARIOS ===============================*/
 
 if (operacionARealizar === "listar") {
-  
+
   for (let i = 0; i < usuarios.length; i++) {
-    for (let j = 0; j < usuarios[i].length; j++) {
-      console.log(usuarios[i][j])
-      alert(`
-      ID: ${usuarios[i][0]}
-      NOMBRE: ${usuarios[i][1]}
-      TELÉFONO: ${usuarios[i][2]}
-      EMAIL: ${usuarios[i][3]}`)
-    }
-    
+    console.log(usuarios[i])
   }
-  
 }
 /*Listar todos los usuarios
   Debe mostrar un listado con todos los usuarios y todos sus datos:
@@ -123,6 +120,37 @@ if (operacionARealizar === "listar") {
 */
 
 /*=================================== ELIMINAR USUARIO ===============================*/
+
+do {
+  if (operacionARealizar === "eliminar") {
+    let usuarioAEliminar = prompt("Indique el ID del usuario que desea eliminar");
+    usuarioAEliminar = Number(usuarioAEliminar);
+
+    for (let i = 0; i < usuarios.length; i++) {
+      for (let j = 0; j < usuarios[i].length; j++) {
+        if (usuarios[i][j] === usuarioAEliminar) {
+          let confirmacionOperacion = prompt(`
+          ID: ${usuarios[i][0]}
+          NOMBRE: ${usuarios[i][1]}
+          TELÉFONO: ${usuarios[i][2]}
+          EMAIL: ${usuarios[i][3]}
+        
+          ¿Desea confirmar la operación?`);
+          if (confirmacionOperacion === respuestaAfirmativa) {
+            usuarios.splice(i, 1);
+            alert(`Se ha eliminado al usuario con ID ${usuarioAEliminar}`);
+            break;
+          }
+          else {
+            alert(`La operación ha sido cancelada`)
+          }
+        }
+      }
+    }
+    repeticionOperacion = prompt("¿Desea realizar la operación nuevamente?");
+  }
+}
+while (repeticionOperacion === respuestaAfirmativa);
 
 /*Eliminar un usuario
   Debe pedir ingresar el id del usuario a eliminar
