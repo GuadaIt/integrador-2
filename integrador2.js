@@ -40,6 +40,7 @@ do {
     }
   }
   while (repeticionOperacion === respuestaAfirmativa);
+
   /*=================================== OBTENER USUARIO ===============================*/
 
   do {
@@ -76,16 +77,6 @@ do {
   }
   while (repeticionOperacion === respuestaAfirmativa);
 
-  /*🔎 Buscar un usuario
-   Debe pedir seleccionar por qué dato se va a buscar: id, nombre, celular o email
-   A continuación debe pedir ingresar el valor que se va a buscar
-   Si el usuario existe debe mostrar la información del usuario con todos sus datos
-   Si el usuario no existe debe mostrar un mensaje informándolo
-   A continuación debe pedir si se desea realizar nuevamente el procedimiento
-   Si la respuesta es afirmativa debe volver a realizar el procedimiento
-   Si la respuesta es negativa debe llevar al menú de operaciones
-  */
-
   /*=================================== LISTAR USUARIOS ===============================*/
 
   if (operacionARealizar === "listar") {
@@ -112,14 +103,6 @@ do {
   EMAIL: ${usuarios[3][3]}
   `)
   }
-  /*Listar todos los usuarios
-    Debe mostrar un listado con todos los usuarios y todos sus datos:
-    Id
-    Nombre
-    Teléfono
-    Email
-    Luego debe llevar al menú de operaciones
-  */
 
   /*=================================== MODIFICAR USUARIO ===============================*/
 
@@ -170,16 +153,6 @@ do {
     }
   }
   while (repeticionOperacion === respuestaAfirmativa);
-
-  /*Eliminar un usuario
-    Debe pedir ingresar el id del usuario a eliminar
-    Si el usuario existe debe mostrar los datos del usuario y preguntar si desea confirmar la operación
-    Si la respuesta es afirmativa debe eliminar el usuario de la lista de usuarios y mostrar un mensaje de éxito
-    Si la respuesta es negativa debe mostrar un mensaje indicando que la operación fue cancelada
-    A continuación debe pedir si se desea realizar nuevamente el procedimiento
-    Si la respuesta es afirmativa debe volver a realizar el procedimiento
-    Si la respuesta es negativa debe llevar al menú de operaciones
-  */
 
   /*=================================== SALIR DEL PROGRAMA ===============================*/
 
