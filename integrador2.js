@@ -8,10 +8,20 @@ const respuestaAfirmativa = "Si";
 const respuestaNegativa = "No";
 let repeticionOperacion;
 let salirDelPrograma;
+let listaDeUsuarios = ``;
 
 do {
 
-  let operacionARealizar = prompt(`¿Qué operación desea realizar?`);
+  let operacionARealizar = prompt(`¿Qué operación desea realizar?
+  - [AGREGAR] un usuario
+  - [OBTENER] un usuario
+  - [LISTAR] usuarios
+  - [MODIFICAR] un usuario
+  - [ELIMINAR] un usuario
+  - [SALIR] del programa
+  `);
+
+  operacionARealizar = operacionARealizar.toLowerCase();
 
   /*=================================== AGREGAR USUARIO ===============================*/
 
@@ -22,11 +32,11 @@ do {
       telefonoUsuario = Number(telefonoUsuario);
       let mailUsuario = prompt("Ingrese mail del usuario")
       let respuestaConfirmacion = prompt(`Ingresaste los siguientes datos:
-    Nombre: ${usuarioAAgregar}
-    Teléfono: ${telefonoUsuario}
-    Mail: ${mailUsuario}
+      Nombre: ${usuarioAAgregar}
+      Teléfono: ${telefonoUsuario}
+      Mail: ${mailUsuario}
     
-    ¿Desea confirmar la operación?`)
+      ¿Desea confirmar la operación?`)
 
       if (respuestaConfirmacion === respuestaAfirmativa) {
         let datosUsuarioAAgregar = [usuarios.length, usuarioAAgregar, telefonoUsuario, mailUsuario]
@@ -46,10 +56,10 @@ do {
   do {
     if (operacionARealizar === "obtener") {
       let datoABuscar = prompt(`Seleccione una opción de búsqueda:
-    ID
-    NOMBRE
-    TELEFONO
-    EMAIL`)
+      ID
+      NOMBRE
+      TELEFONO
+      EMAIL`)
       let valorDeDatoABuscar = prompt(`Ingrese el valor de ${datoABuscar}`);
 
       //acá hay un problema si el usuario ingresa un numero para realizar la búsqueda porque se guarda como string 
@@ -59,16 +69,15 @@ do {
 
           if (usuarios[i][j] === valorDeDatoABuscar) {
             alert(`Los datos del usuario son:
-          ID: ${usuarios[i][0]}
-          NOMBRE: ${usuarios[i][1]}
-          TELÉFONO: ${usuarios[i][2]}
-          EMAIL: ${usuarios[i][3]}`)
-            break;
-          }
-          /////////////////////// ERROR: se ejecuta el loop 4 veces. Por ende, si el usuario que busco tiene índice 2, primero veré 2 alertas
-          ////////////////////// de usuario no encontrado y luego si, el alert con los datos.
-          else {
-            alert("Usuario no encontrado")
+            ID: ${usuarios[i][0]}
+            NOMBRE: ${usuarios[i][1]}
+            TELÉFONO: ${usuarios[i][2]}
+            EMAIL: ${usuarios[i][3]}`)
+
+            /////////////////////// ERROR: se ejecuta el loop 4 veces. Por ende, si el usuario que busco tiene índice 2, primero veré 2 alertas
+            ////////////////////// de usuario no encontrado y luego si, el alert con los datos.
+          } else {
+            alert("Usuario no encontrado");
           }
         }
       }
@@ -80,32 +89,39 @@ do {
   /*=================================== LISTAR USUARIOS ===============================*/
 
   if (operacionARealizar === "listar") {
-
-    alert(`
-  ID: ${usuarios[0][0]}
-  NOMBRE: ${usuarios[0][1]}
-  TELEFONO: ${usuarios[0][2]}
-  EMAIL: ${usuarios[0][3]}
-  ----------------------
-  ID: ${usuarios[1][0]}
-  NOMBRE: ${usuarios[1][1]}
-  TELEFONO: ${usuarios[1][2]}
-  EMAIL: ${usuarios[1][3]}
-  ----------------------
-  ID: ${usuarios[2][0]}
-  NOMBRE: ${usuarios[2][1]}
-  TELEFONO: ${usuarios[2][2]}
-  EMAIL: ${usuarios[2][3]}
-  ----------------------
-  ID: ${usuarios[3][0]}
-  NOMBRE: ${usuarios[3][1]}
-  TELEFONO: ${usuarios[3][2]}
-  EMAIL: ${usuarios[3][3]}
-  `)
+    for (let i = 0; i < usuarios.length; i++) {
+      listaDeUsuarios += `
+      ID: ${usuarios[i][0]} 
+      NOMBRE: ${usuarios[i][1]} 
+      TELÉFONO: ${usuarios[i][2]} 
+      EMAIL: ${usuarios[i][3]}
+      ---------------------------`;
+    }
+    alert(listaDeUsuarios);
   }
 
   /*=================================== MODIFICAR USUARIO ===============================*/
 
+  do {
+    if (operacionARealizar === "modificar") {
+      let usuarioAModificar = prompt("Indique el ID del usuario que desea modificar");
+      usuarioAModificar = Number(usuarioAModificar);
+
+      for (let i = 0; i < usuarios.length; i++) {
+        for (let j = 0; j < usuarios[i].length; j++) {
+
+          if (usuarios[i][j] === usuarioAModificar) {
+            let nuevoNombre = prompt(`Ingrese un nuevo nombre`)
+            let nuevoTelefono = prompt(`Ingrese un nuevo teléfono`)
+            let nuevoEmail = prompt(`Ingrese un nuevo email`)
+            usuarios[i][j] = nuevoNombre;
+            console.log(usuarios)
+          }
+
+        }
+      }
+    }
+  } while (repeticionOperacion === respuestaAfirmativa);
   /*Modificar un usuario
     Debe pedir ingresar el id del usuario a modificar
     Si el usuario existe debe pedir ingresar uno por uno los datos a modificar del usuario:
@@ -132,12 +148,12 @@ do {
         for (let j = 0; j < usuarios[i].length; j++) {
           if (usuarios[i][j] === usuarioAEliminar) {
             let confirmacionOperacion = prompt(`
-          ID: ${usuarios[i][0]}
-          NOMBRE: ${usuarios[i][1]}
-          TELÉFONO: ${usuarios[i][2]}
-          EMAIL: ${usuarios[i][3]}
+            ID: ${usuarios[i][0]}
+            NOMBRE: ${usuarios[i][1]}
+            TELÉFONO: ${usuarios[i][2]}
+            EMAIL: ${usuarios[i][3]}
         
-          ¿Desea confirmar la operación?`);
+            ¿Desea confirmar la operación?`);
             if (confirmacionOperacion === respuestaAfirmativa) {
               usuarios.splice(i, 1);
               alert(`Se ha eliminado al usuario con ID ${usuarioAEliminar}`);
@@ -147,6 +163,9 @@ do {
               alert(`La operación ha sido cancelada`)
             }
           }
+          ///////////////acá tenía intenciones de agregar un alert en caso de que se ingresen datos incorrectos o que no correspondan 
+          ////////////// a ningun usuario. Pero si lo hago el alert aparece por cada vuelta del for que no se encontro al usuario
+          ////////////// en cuestion y siguen apareciendo hasta que damos con los datos que buscamos
         }
       }
       repeticionOperacion = prompt("¿Desea realizar la operación nuevamente?");
@@ -156,18 +175,15 @@ do {
 
   /*=================================== SALIR DEL PROGRAMA ===============================*/
 
-  salirDelPrograma = prompt(`¿Desea abandonar el programa?`);
+  if (operacionARealizar === "salir") {
+    salirDelPrograma = prompt(`¿Desea abandonar el programa?`);
 
-  /*Debe preguntar si desea confirmar la operación
-    Si la respuesta es afirmativa debe mostrar un mensaje de despedida y salir del programa
-    Si la respuesta es negativa debe volver al menú de operaciones
-  */
-
-
-
+    if (salirDelPrograma === respuestaAfirmativa) {
+      alert(`Hasta la vista, baby`);
+    }
+  }
 
   //Sí es requerido que si se ingresa una opción incorrecta (cuando tengamos que hacerlo) el programa nos avise del hecho, 
   //y tome una acción por default (por ejemplo, volver al menú) 
 
-}
-while (salirDelPrograma != respuestaAfirmativa)
+} while (salirDelPrograma === respuestaNegativa)
